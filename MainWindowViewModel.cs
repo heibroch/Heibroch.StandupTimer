@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Media;
@@ -12,9 +13,11 @@ namespace Heibroch.StandupTimer
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly DispatcherTimer dispatcherTimer;
         private readonly List<string> imageList;
-        private int imageIndex;
+        private readonly Dictionary<int, double> timeSpentPerPerson;
+        private int imageIndex = -1;
+        private DispatcherTimer dispatcherTimer;
+        private const double TickSize = 0.25;
 
         public MainWindowViewModel()
         {
@@ -23,11 +26,6 @@ namespace Heibroch.StandupTimer
             NextCommand = new ActionCommand(ExecuteNextCommand);
             PauseCommand = new ActionCommand(ExecutePauseCommand);
             ResetCommand = new ActionCommand(ExecuteResetCommand);
-
-            dispatcherTimer = new DispatcherTimer(DispatcherPriority.Background);
-            dispatcherTimer.Interval = TimeSpan.FromSeconds(0.25);
-            dispatcherTimer.Tick += OnDispatcherTimerTick;
-            dispatcherTimer.Start();
 
             var imagesPath = Environment.CurrentDirectory + "\\Images";
             if (!Directory.Exists(imagesPath))
@@ -41,9 +39,11 @@ namespace Heibroch.StandupTimer
                 MessageBox.Show("Images folder contains no images");
                 return;
             }
-
+            
             imageList = new List<string>(files);
             Shuffle(imageList);
+
+            timeSpentPerPerson = new Dictionary<int, double>();
         }
 
         private void ExecuteResetCommand(object obj)
@@ -60,6 +60,14 @@ namespace Heibroch.StandupTimer
         }
         private void ExecuteNextCommand(object obj)
         {
+            if (dispatcherTimer == null)
+            {
+                dispatcherTimer = new DispatcherTimer(DispatcherPriority.Background);
+                dispatcherTimer.Interval = TimeSpan.FromSeconds(TickSize);
+                dispatcherTimer.Tick += OnDispatcherTimerTick;
+                dispatcherTimer.Start();
+            }
+
             dispatcherTimer.Stop();
             SetNextImage();
             ResetValues();
@@ -68,7 +76,8 @@ namespace Heibroch.StandupTimer
         
         private void OnDispatcherTimerTick(object sender, EventArgs e)
         {
-            CurrentValue -= 0.25;
+            CurrentValue -= TickSize;
+            timeSpentPerPerson[imageIndex] += TickSize;
             RaisePropertyChanged(nameof(CurrentValue));
             RaisePropertyChanged(nameof(TimeLeft));
         }
@@ -81,10 +90,24 @@ namespace Heibroch.StandupTimer
         }
         private void SetNextImage()
         {
-            if (imageIndex >= imageList.Count) return;
+            imageIndex++;
+
+            if (imageIndex >= imageList.Count)
+            {
+                MessageBox.Show("Total time spent on stand up: " + TimeSpan.FromSeconds(timeSpentPerPerson.Sum(x => x.Value)) + Environment.NewLine +
+                                "Average time spent per person: " + TimeSpan.FromSeconds(timeSpentPerPerson.Sum(x => x.Value) / imageList.Count) + Environment.NewLine + 
+                                "Most time used: " + TimeSpan.FromSeconds(timeSpentPerPerson.Max(x => x.Value)) + Environment.NewLine +
+                                "Least time used: " + TimeSpan.FromSeconds(timeSpentPerPerson.Min(x => x.Value)) + Environment.NewLine);
+
+                dispatcherTimer.Stop();
+
+                return;
+            }
+
             CurrentImage = new BitmapImage(new Uri(imageList[imageIndex]));
             Name = Path.GetFileNameWithoutExtension(imageList[imageIndex]);
-            imageIndex++;
+            timeSpentPerPerson.Add(imageIndex, 0);
+            
             RaisePropertyChanged(nameof(CurrentImage));
             RaisePropertyChanged(nameof(Name));
         }
