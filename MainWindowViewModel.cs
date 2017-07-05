@@ -73,15 +73,18 @@ namespace Heibroch.StandupTimer
             ResetValues();
             dispatcherTimer.Start();
         }
-        
+
         private void OnDispatcherTimerTick(object sender, EventArgs e)
         {
             CurrentValue -= TickSize;
-            timeSpentPerPerson[imageIndex] += TickSize;
+
+            if (timeSpentPerPerson.ContainsKey(imageIndex))
+                timeSpentPerPerson[imageIndex] += TickSize;
+
             RaisePropertyChanged(nameof(CurrentValue));
             RaisePropertyChanged(nameof(TimeLeft));
         }
-        
+
         private void ResetValues()
         {
             MaxValue = 120;
