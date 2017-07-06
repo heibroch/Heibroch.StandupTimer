@@ -83,12 +83,13 @@ namespace Heibroch.StandupTimer
 
             RaisePropertyChanged(nameof(CurrentValue));
             RaisePropertyChanged(nameof(TimeLeft));
+            RaisePropertyChanged(nameof(IsOverTime));
         }
 
         private void ResetValues()
         {
-            MaxValue = 120;
-            CurrentValue = 120;
+            MaxValue = 3;
+            CurrentValue = 3;
             MinValue = 0;
         }
         private void SetNextImage()
@@ -113,6 +114,7 @@ namespace Heibroch.StandupTimer
             
             RaisePropertyChanged(nameof(CurrentImage));
             RaisePropertyChanged(nameof(Name));
+            RaisePropertyChanged(nameof(IsOverTime));
         }
 
         private static void Shuffle<T>(IList<T> list)
@@ -143,9 +145,13 @@ namespace Heibroch.StandupTimer
             get
             {
                 var timeSpan = TimeSpan.FromSeconds(CurrentValue);
-                return $"{timeSpan.Hours}:{timeSpan.Minutes}:{timeSpan.Seconds}";
+                return timeSpan < TimeSpan.FromSeconds(0)
+                    ? $"-{Math.Abs(timeSpan.Minutes):00}:{Math.Abs(timeSpan.Seconds):00}"
+                    : $"{timeSpan.Minutes:00}:{timeSpan.Seconds:00}";
             }
-        } 
+        }
+
+        public bool IsOverTime => CurrentValue < 0;
 
         public ImageSource CurrentImage { get; set; }
 

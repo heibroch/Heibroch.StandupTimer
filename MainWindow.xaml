@@ -7,10 +7,11 @@
         mc:Ignorable="d"
         Topmost="True"
         Title="Standup Timer" Height="250" Width="350"
-        WindowStyle="ToolWindow"
-
-        >
-    <Grid>
+        WindowStyle="ToolWindow">
+    <Window.Resources>
+        <SolidColorBrush x:Key="MainGridBrush" Color="Gray"/>
+    </Window.Resources>
+    <Grid x:Name="MainGrid" Background="{StaticResource MainGridBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.02*"/>
             <ColumnDefinition Width="0.9*"/>
@@ -21,6 +22,29 @@
             <RowDefinition Height="0.9*"/>
             <RowDefinition Height="0.05*"/>
         </Grid.RowDefinitions>
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsOverTime, Mode=OneWay}" Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard AutoReverse="True" RepeatBehavior="Forever" TargetProperty="Color" Target="{StaticResource MainGridBrush}">
+                                    <ColorAnimation To="Red" Duration="0:0:1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard AutoReverse="True" FillBehavior="HoldEnd" TargetProperty="Color" Target="{StaticResource MainGridBrush}">
+                                    <ColorAnimation To="Gray" Duration="0:0:0"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.ExitActions>
+                        <!--<Setter Property="Background" Value="Red"></Setter>-->
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
         <ProgressBar Maximum="{Binding MaxValue, Mode=OneWay}"
                      Value="{Binding CurrentValue, Mode=OneWay}"
                      Minimum="{Binding MinValue, Mode=OneWay}"
@@ -28,7 +52,8 @@
                      Canvas.ZIndex="0"
                      Grid.RowSpan="3"
                      Grid.ColumnSpan="3"
-                     Foreground="DarkOrange"/>
+                     Foreground="DarkOrange"
+                     Background="Transparent"/>
 
         <Grid Canvas.ZIndex="1" 
               Background="Transparent"
