@@ -29,14 +29,14 @@
                         <DataTrigger.EnterActions>
                             <BeginStoryboard>
                                 <Storyboard AutoReverse="True" RepeatBehavior="Forever" TargetProperty="Color" Target="{StaticResource MainGridBrush}">
-                                    <ColorAnimation To="Red" Duration="0:0:1"/>
+                                    <ColorAnimation To="#EE7021" Duration="0:0:1"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </DataTrigger.EnterActions>
                         <DataTrigger.ExitActions>
                             <BeginStoryboard>
                                 <Storyboard AutoReverse="True" FillBehavior="HoldEnd" TargetProperty="Color" Target="{StaticResource MainGridBrush}">
-                                    <ColorAnimation To="Gray" Duration="0:0:0"/>
+                                    <ColorAnimation To="#23CC00" Duration="0:0:0"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </DataTrigger.ExitActions>
@@ -52,7 +52,7 @@
                      Canvas.ZIndex="0"
                      Grid.RowSpan="3"
                      Grid.ColumnSpan="3"
-                     Foreground="DarkOrange"
+                     Foreground="#23CC00"
                      Background="Transparent"/>
 
         <Grid Canvas.ZIndex="1" 
