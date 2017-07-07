@@ -88,8 +88,8 @@ namespace Heibroch.StandupTimer
 
         private void ResetValues()
         {
-            MaxValue = 3;
-            CurrentValue = 3;
+            MaxValue = 120;
+            CurrentValue = 120;
             MinValue = 0;
         }
         private void SetNextImage()
