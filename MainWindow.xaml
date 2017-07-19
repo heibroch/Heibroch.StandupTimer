@@ -27,18 +27,14 @@
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding IsOverTime, Mode=OneWay}" Value="True">
                         <DataTrigger.EnterActions>
-                            <BeginStoryboard>
+                            <BeginStoryboard x:Name="alertStoryboard">
                                 <Storyboard AutoReverse="True" RepeatBehavior="Forever" TargetProperty="Color" Target="{StaticResource MainGridBrush}">
                                     <ColorAnimation To="#EE7021" Duration="0:0:1"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </DataTrigger.EnterActions>
                         <DataTrigger.ExitActions>
-                            <BeginStoryboard>
-                                <Storyboard AutoReverse="True" FillBehavior="HoldEnd" TargetProperty="Color" Target="{StaticResource MainGridBrush}">
-                                    <ColorAnimation To="#23CC00" Duration="0:0:0"/>
-                                </Storyboard>
-                            </BeginStoryboard>
+                            <StopStoryboard BeginStoryboardName="alertStoryboard" />
                         </DataTrigger.ExitActions>
                         <!--<Setter Property="Background" Value="Red"></Setter>-->
                     </DataTrigger>
