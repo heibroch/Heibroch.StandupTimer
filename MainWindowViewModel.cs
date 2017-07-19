@@ -48,12 +48,14 @@ namespace Heibroch.StandupTimer
 
         private void ExecuteResetCommand(object obj)
         {
+            if (dispatcherTimer == null) return;
             dispatcherTimer.Stop();
             ResetValues();
             dispatcherTimer.Start();
         }
         private void ExecutePauseCommand(object obj)
         {
+            if (dispatcherTimer == null) return;
             if (dispatcherTimer.IsEnabled)
                 dispatcherTimer.Stop();
             else dispatcherTimer.Start();
