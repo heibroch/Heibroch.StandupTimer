@@ -109,6 +109,22 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"/>
 
+            <Button Content="Skip"
+                    Height="28"
+                    Width="60"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Command="{Binding SkipCommand}"
+                    FontWeight="Bold"
+                    FontSize="18"
+                    Canvas.ZIndex="3"
+                    BorderBrush="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+
             <!--<Label Content="Next"
                    Canvas.ZIndex="3"
                    Height="25"

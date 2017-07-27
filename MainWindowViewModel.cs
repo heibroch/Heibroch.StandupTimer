@@ -14,7 +14,7 @@ namespace Heibroch.StandupTimer
     public class MainWindowViewModel : ViewModelBase
     {
         private readonly List<string> imageList;
-        private readonly Dictionary<int, double> timeSpentPerPerson;
+        private readonly Dictionary<int, StandupParticipant> timeSpentPerPerson;
         private int imageIndex = -1;
         private DispatcherTimer dispatcherTimer;
         private const double TickSize = 0.25;
@@ -24,6 +24,7 @@ namespace Heibroch.StandupTimer
             ResetValues();
 
             NextCommand = new ActionCommand(ExecuteNextCommand);
+            SkipCommand = new ActionCommand(ExecuteSkipCommand);
             PauseCommand = new ActionCommand(ExecutePauseCommand);
             ResetCommand = new ActionCommand(ExecuteResetCommand);
 
@@ -43,7 +44,7 @@ namespace Heibroch.StandupTimer
             imageList = new List<string>(files);
             Shuffle(imageList);
 
-            timeSpentPerPerson = new Dictionary<int, double>();
+            timeSpentPerPerson = new Dictionary<int, StandupParticipant>();
         }
 
         private void ExecuteResetCommand(object obj)
@@ -60,6 +61,13 @@ namespace Heibroch.StandupTimer
                 dispatcherTimer.Stop();
             else dispatcherTimer.Start();
         }
+
+        private void ExecuteSkipCommand(object obj)
+        {
+            timeSpentPerPerson[imageIndex].Skipped = true;
+            StartNewPerson();
+        }
+
         private void ExecuteNextCommand(object obj)
         {
             if (dispatcherTimer == null)
@@ -70,6 +78,11 @@ namespace Heibroch.StandupTimer
                 dispatcherTimer.Start();
             }
 
+            StartNewPerson();
+        }
+
+        private void StartNewPerson()
+        {
             dispatcherTimer.Stop();
             SetNextImage();
             ResetValues();
@@ -81,7 +94,8 @@ namespace Heibroch.StandupTimer
             CurrentValue -= TickSize;
 
             if (timeSpentPerPerson.ContainsKey(imageIndex))
-                timeSpentPerPerson[imageIndex] += TickSize;
+                timeSpentPerPerson[imageIndex].TimeSpent += TickSize;
+
 
             RaisePropertyChanged(nameof(CurrentValue));
             RaisePropertyChanged(nameof(TimeLeft));
@@ -100,11 +114,16 @@ namespace Heibroch.StandupTimer
 
             if (imageIndex >= imageList.Count)
             {
-                MessageBox.Show("Total time spent on stand up: " + TimeSpan.FromSeconds(timeSpentPerPerson.Sum(x => x.Value)) + Environment.NewLine +
-                                "Average time spent per person: " + TimeSpan.FromSeconds(timeSpentPerPerson.Sum(x => x.Value) / imageList.Count) + Environment.NewLine + 
-                                "Most time used: " + TimeSpan.FromSeconds(timeSpentPerPerson.Max(x => x.Value)) + Environment.NewLine +
-                                "Least time used: " + TimeSpan.FromSeconds(timeSpentPerPerson.Min(x => x.Value)) + Environment.NewLine);
-
+                var peopleDuringDaily = timeSpentPerPerson.Where(x => x.Value.Skipped == false);
+                if (peopleDuringDaily.Count() != 0)
+                {
+                    MessageBox.Show("Total time spent on stand up: " + TimeSpan.FromSeconds(peopleDuringDaily.Sum(x => x.Value.TimeSpent)) + Environment.NewLine +
+                                    "Average time spent per person: " + TimeSpan.FromSeconds(peopleDuringDaily.Sum(x => x.Value.TimeSpent) / imageList.Count) + Environment.NewLine +
+                                    "Most time used: " + TimeSpan.FromSeconds(peopleDuringDaily.Max(x => x.Value.TimeSpent)) + Environment.NewLine +
+                                    "Least time used: " + TimeSpan.FromSeconds(peopleDuringDaily.Min(x => x.Value.TimeSpent)) + Environment.NewLine);
+                }
+                else
+                    MessageBox.Show("No one took part in the daily.");
                 dispatcherTimer.Stop();
 
                 return;
@@ -112,7 +131,7 @@ namespace Heibroch.StandupTimer
 
             CurrentImage = new BitmapImage(new Uri(imageList[imageIndex]));
             Name = Path.GetFileNameWithoutExtension(imageList[imageIndex]);
-            timeSpentPerPerson.Add(imageIndex, 0);
+            timeSpentPerPerson.Add(imageIndex, new StandupParticipant());
             
             RaisePropertyChanged(nameof(CurrentImage));
             RaisePropertyChanged(nameof(Name));
@@ -160,6 +179,8 @@ namespace Heibroch.StandupTimer
         public ActionCommand NextCommand { get; set; }
         public ActionCommand PauseCommand { get; set; }
         public ActionCommand ResetCommand { get; set; }
+
+        public ActionCommand SkipCommand { get; set; }
 
     }
 }
