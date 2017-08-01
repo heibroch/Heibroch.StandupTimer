@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:Heibroch.StandupTimer"
         mc:Ignorable="d"
         Topmost="True"
-        Title="Standup Timer" Height="250" Width="350"
+        Title="Standup Timer" 
+        Height="260" 
+        Width="375"
         WindowStyle="ToolWindow">
     <Window.Resources>
         <SolidColorBrush x:Key="MainGridBrush" Color="Gray"/>
@@ -94,10 +96,15 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
 
-            <Button Content="Next"
+            <Grid Grid.Row="2"
+                  Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Next"
                     Height="28"
                     Width="60"
-                    Grid.Row="2"
                     Grid.Column="0"
                     Command="{Binding NextCommand}"
                     FontWeight="Bold"
@@ -109,10 +116,9 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"/>
 
-            <Button Content="Skip"
+                <Button Content="Skip"
                     Height="28"
                     Width="60"
-                    Grid.Row="2"
                     Grid.Column="1"
                     Command="{Binding SkipCommand}"
                     FontWeight="Bold"
@@ -124,6 +130,9 @@
                     HorizontalContentAlignment="Center"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"/>
+            </Grid>
+            
+
 
             <!--<Label Content="Next"
                    Canvas.ZIndex="3"
