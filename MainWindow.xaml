@@ -148,13 +148,13 @@
                   Grid.ColumnSpan="3"
                   Background="Transparent"
                   BorderBrush="Transparent">
-            <ListViewItem>
+            <ListViewItem Focusable="False">
                 <CheckBox FontWeight="Bold" Content="What I did yesterday to help team meet sprint goal" IsChecked="{Binding Achieved}"/>
             </ListViewItem>
-            <ListViewItem>
+            <ListViewItem Focusable="False">
                 <CheckBox FontWeight="Bold" Content="What I will do today to help team meet sprint goal" IsChecked="{Binding Goal}"/>
             </ListViewItem>
-            <ListViewItem>
+            <ListViewItem Focusable="False">
                 <CheckBox FontWeight="Bold" Content="Impediments that prevents team meeting sprint goal" IsChecked="{Binding Impediment}"/>
             </ListViewItem>
         </ListView>
