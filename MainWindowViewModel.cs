@@ -18,6 +18,7 @@ namespace Heibroch.StandupTimer
         private int imageIndex = -1;
         private DispatcherTimer dispatcherTimer;
         private const double TickSize = 0.25;
+        private const int DefaultStandupTimeInSeconds = 60;
 
         public MainWindowViewModel()
         {
@@ -104,8 +105,8 @@ namespace Heibroch.StandupTimer
 
         private void ResetValues()
         {
-            MaxValue = 120;
-            CurrentValue = 120;
+            MaxValue = DefaultStandupTimeInSeconds;
+            CurrentValue = DefaultStandupTimeInSeconds;
             MinValue = 0;
         }
         private void SetNextImage()

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Topmost="True"
         Title="Standup Timer" 
-        Height="260" 
+        Height="360" 
         Width="375"
         WindowStyle="ToolWindow">
     <Window.Resources>
@@ -22,6 +22,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0.05*"/>
             <RowDefinition Height="0.9*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="0.05*"/>
         </Grid.RowDefinitions>
         <Grid.Style>
@@ -48,7 +49,7 @@
                      Minimum="{Binding MinValue, Mode=OneWay}"
                      Orientation="Vertical"
                      Canvas.ZIndex="0"
-                     Grid.RowSpan="3"
+                     Grid.RowSpan="4"
                      Grid.ColumnSpan="3"
                      Foreground="#23CC00"
                      Background="Transparent"/>
@@ -142,6 +143,15 @@
                    HorizontalAlignment="Right"
                    Content="{Binding NextImageCommand}"/>-->
         </Grid>
+
+        <ListView Grid.Row="2"
+                  Grid.ColumnSpan="3"
+                  Background="Transparent"
+                  BorderBrush="Transparent">
+            <ListViewItem FontWeight="Bold" Content="- What I did yesterday to help team meet sprint goal"/>
+            <ListViewItem FontWeight="Bold" Content="- What I will do today to help team meet sprint goal"/>
+            <ListViewItem FontWeight="Bold" Content="- Impediments that prevents team meeting sprint goal"/>
+        </ListView>
         
     </Grid>
 </Window>
