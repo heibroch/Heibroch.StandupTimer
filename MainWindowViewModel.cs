@@ -62,13 +62,11 @@ namespace Heibroch.StandupTimer
                 dispatcherTimer.Stop();
             else dispatcherTimer.Start();
         }
-
         private void ExecuteSkipCommand(object obj)
         {
             timeSpentPerPerson[imageIndex].Skipped = true;
             StartNewPerson();
         }
-
         private void ExecuteNextCommand(object obj)
         {
             if (dispatcherTimer == null)
@@ -108,6 +106,12 @@ namespace Heibroch.StandupTimer
             MaxValue = DefaultStandupTimeInSeconds;
             CurrentValue = DefaultStandupTimeInSeconds;
             MinValue = 0;
+            Achieved = false;
+            Goal = false;
+            Impediment = false;
+            RaisePropertyChanged(nameof(Achieved));
+            RaisePropertyChanged(nameof(Goal));
+            RaisePropertyChanged(nameof(Impediment));
         }
         private void SetNextImage()
         {
@@ -180,8 +184,10 @@ namespace Heibroch.StandupTimer
         public ActionCommand NextCommand { get; set; }
         public ActionCommand PauseCommand { get; set; }
         public ActionCommand ResetCommand { get; set; }
-
         public ActionCommand SkipCommand { get; set; }
 
+        public bool Achieved { get; set; }
+        public bool Goal { get; set; }
+        public bool Impediment { get; set; }
     }
 }
