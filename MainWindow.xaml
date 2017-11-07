@@ -4,26 +4,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Heibroch.StandupTimer"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Topmost="True"
         Title="Standup Timer" 
-        Height="360" 
-        Width="375"
-        WindowStyle="ToolWindow">
+        Height="310" 
+        Width="345"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
     <Window.Resources>
-        <SolidColorBrush x:Key="MainGridBrush" Color="Gray"/>
+        <sys:Double x:Key="OpacityValue">0.5</sys:Double>
+        <SolidColorBrush x:Key="MainGridBrush" Color="Gray" Opacity="{StaticResource OpacityValue}"/>
     </Window.Resources>
     <Grid x:Name="MainGrid" Background="{StaticResource MainGridBrush}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.02*"/>
+            <ColumnDefinition Width="0.01*"/>
             <ColumnDefinition Width="0.9*"/>
-            <ColumnDefinition Width="0.05*"/>
+            <ColumnDefinition Width="0.01*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.05*"/>
             <RowDefinition Height="0.9*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="0.05*"/>
+            <!--<RowDefinition Height="0.05*"/>-->
         </Grid.RowDefinitions>
         <Grid.Style>
             <Style TargetType="Grid">
@@ -52,10 +56,10 @@
                      Grid.RowSpan="4"
                      Grid.ColumnSpan="3"
                      Foreground="#23CC00"
+                     Opacity="{StaticResource OpacityValue}"
                      Background="Transparent"/>
 
         <Grid Canvas.ZIndex="1" 
-              Background="Transparent"
               Grid.Column="1"
               Grid.Row="1">
             <Grid.ContextMenu>
@@ -64,7 +68,6 @@
                     <MenuItem Header="Reset" Command="{Binding ResetCommand}"/>
                 </ContextMenu>
             </Grid.ContextMenu>
-
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -77,8 +80,7 @@
             <Image Source="{Binding CurrentImage}"
                    Canvas.ZIndex="2"
                    Grid.Column="1"
-                   Grid.RowSpan="3">
-            </Image>
+                   Grid.RowSpan="3"/>
 
             
             <Label Content="{Binding Name}"
@@ -144,7 +146,7 @@
                    Content="{Binding NextImageCommand}"/>-->
         </Grid>
 
-        <ListView Grid.Row="2"
+        <!--<ListView Grid.Row="2"
                   Grid.ColumnSpan="3"
                   Background="Transparent"
                   BorderBrush="Transparent">
@@ -157,7 +159,7 @@
             <ListViewItem Focusable="False">
                 <CheckBox FontWeight="Bold" Content="Impediments that prevents team meeting sprint goal" IsChecked="{Binding Impediment}"/>
             </ListViewItem>
-        </ListView>
+        </ListView>-->
         
     </Grid>
 </Window>

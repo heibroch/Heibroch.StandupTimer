@@ -11,6 +11,9 @@ namespace Heibroch.StandupTimer
         {
             InitializeComponent();
             DataContext = new MainWindowViewModel();
+            MouseDown += MainWindow_MouseDown;
         }
+
+        private void MainWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) => DragMove();
     }
 }
