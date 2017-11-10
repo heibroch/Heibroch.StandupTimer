@@ -9,10 +9,11 @@
         Topmost="True"
         Title="Standup Timer" 
         Height="310" 
-        Width="345"
+        Width="160"
         WindowStyle="None"
         AllowsTransparency="True"
-        Background="Transparent">
+        Background="Transparent"
+        ResizeMode="CanResizeWithGrip">
     <Window.Resources>
         <sys:Double x:Key="OpacityValue">0.5</sys:Double>
         <SolidColorBrush x:Key="MainGridBrush" Color="Gray" Opacity="{StaticResource OpacityValue}"/>
@@ -24,9 +25,9 @@
             <ColumnDefinition Width="0.01*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.01*"/>
             <RowDefinition Height="0.9*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0.01"/>
             <!--<RowDefinition Height="0.05*"/>-->
         </Grid.RowDefinitions>
         <Grid.Style>
@@ -53,8 +54,9 @@
                      Minimum="{Binding MinValue, Mode=OneWay}"
                      Orientation="Vertical"
                      Canvas.ZIndex="0"
-                     Grid.RowSpan="4"
-                     Grid.ColumnSpan="3"
+                     Grid.RowSpan="3"
+                     Grid.ColumnSpan="1"
+                     Grid.Column="1"
                      Foreground="#23CC00"
                      Opacity="{StaticResource OpacityValue}"
                      Background="Transparent"/>
@@ -68,39 +70,32 @@
                     <MenuItem Header="Reset" Command="{Binding ResetCommand}"/>
                 </ContextMenu>
             </Grid.ContextMenu>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Image Source="{Binding CurrentImage}"
-                   Canvas.ZIndex="2"
-                   Grid.Column="1"
-                   Grid.RowSpan="3"/>
 
-            
             <Label Content="{Binding Name}"
                    Grid.Row="0"
-                   Grid.Column="0"
                    FontSize="23"
                    FontWeight="Bold"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
-
+            
+            <Image Source="{Binding CurrentImage}"
+                   Canvas.ZIndex="2"
+                   Grid.Row="1"/>
+            
             <Label Content="{Binding TimeLeft}"
-                   Grid.Row="1"
-                   Grid.Column="0"
+                   Grid.Row="2"
                    FontSize="23"
                    FontWeight="Bold"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
 
-            <Grid Grid.Row="2"
-                  Grid.Column="0">
+            <Grid Grid.Row="3" Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
