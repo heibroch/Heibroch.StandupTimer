@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace Heibroch.StandupTimer
 {
@@ -14,6 +15,11 @@ namespace Heibroch.StandupTimer
             MouseDown += MainWindow_MouseDown;
         }
 
-        private void MainWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) => DragMove();
+        private void MainWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.RightButton != MouseButtonState.Pressed) return;
+            DragMove();
+        }
+
     }
 }
