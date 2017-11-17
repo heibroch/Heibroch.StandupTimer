@@ -17,7 +17,7 @@ namespace Heibroch.StandupTimer
 
         private void MainWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (e.RightButton != MouseButtonState.Pressed) return;
+            if (e.LeftButton != MouseButtonState.Pressed) return;
             DragMove();
         }
 

@@ -19,6 +19,12 @@
         <SolidColorBrush x:Key="MainGridBrush" Color="Gray" Opacity="{StaticResource OpacityValue}"/>
     </Window.Resources>
     <Grid x:Name="MainGrid" Background="{StaticResource MainGridBrush}">
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Toggle Pause" Command="{Binding PauseCommand}"/>
+                <MenuItem Header="Reset" Command="{Binding ResetCommand}"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.01*"/>
             <ColumnDefinition Width="0.9*"/>
@@ -64,12 +70,6 @@
         <Grid Canvas.ZIndex="1" 
               Grid.Column="1"
               Grid.Row="1">
-            <Grid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Toggle Pause" Command="{Binding PauseCommand}"/>
-                    <MenuItem Header="Reset" Command="{Binding ResetCommand}"/>
-                </ContextMenu>
-            </Grid.ContextMenu>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
@@ -83,11 +83,11 @@
                    FontWeight="Bold"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
-            
+
             <Image Source="{Binding CurrentImage}"
                    Canvas.ZIndex="2"
                    Grid.Row="1"/>
-            
+
             <Label Content="{Binding TimeLeft}"
                    Grid.Row="2"
                    FontSize="23"
@@ -129,32 +129,6 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"/>
             </Grid>
-            
-
-
-            <!--<Label Content="Next"
-                   Canvas.ZIndex="3"
-                   Height="25"
-                   Width="60"
-                   VerticalAlignment="Bottom"
-                   HorizontalAlignment="Right"
-                   Content="{Binding NextImageCommand}"/>-->
         </Grid>
-
-        <!--<ListView Grid.Row="2"
-                  Grid.ColumnSpan="3"
-                  Background="Transparent"
-                  BorderBrush="Transparent">
-            <ListViewItem Focusable="False">
-                <CheckBox FontWeight="Bold" Content="What I did yesterday to help team meet sprint goal" IsChecked="{Binding Achieved}"/>
-            </ListViewItem>
-            <ListViewItem Focusable="False">
-                <CheckBox FontWeight="Bold" Content="What I will do today to help team meet sprint goal" IsChecked="{Binding Goal}"/>
-            </ListViewItem>
-            <ListViewItem Focusable="False">
-                <CheckBox FontWeight="Bold" Content="Impediments that prevents team meeting sprint goal" IsChecked="{Binding Impediment}"/>
-            </ListViewItem>
-        </ListView>-->
-        
     </Grid>
 </Window>
